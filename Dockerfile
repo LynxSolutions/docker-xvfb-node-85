@@ -7,7 +7,9 @@ RUN echo "deb http://ftp.us.debian.org/debian testing main contrib non-free " >>
 RUN echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list
 
 # Install git
-RUN apt-get update && apt-get install -y git rsync bzip2 xvfb curl openjdk-8-jre
+RUN apt-get update && apt-get install -y git rsync bzip2 xvfb curl 
+RUN mkdir /usr/share/man/man1
+RUN apt-get install -y -t jessie-backports  openjdk-8-jre-headless ca-certificates-java
 
 # Install google-chrome
 RUN set -xe \
@@ -18,10 +20,10 @@ RUN set -xe \
     && rm -rf /var/lib/apt/lists/*
 
 # Global install gulp and bower
-RUN npm set progress=false && \
-    npm install -g gulp grunt bower phantomjs && \
-    printf '\n%s' 'registry = http://nexus.lynxsolutions.eu/repository/npm/' >> /root/.npmrc && \
-    echo '{ "allow_root": true }' > /root/.bowerrc
+# RUN npm set progress=false && \
+#    npm install -g gulp grunt bower phantomjs && \
+#    printf '\n%s' 'registry = http://nexus.lynxsolutions.eu/repository/npm/' >> /root/.npmrc && \
+#    echo '{ "allow_root": true }' > /root/.bowerrc
 
 # Binary may be called nodejs instead of node
 RUN ln -s /usr/bin/nodejs /usr/bin/node
